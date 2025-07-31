@@ -104,8 +104,15 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Research: `sonar-deep-research`
 - Legacy/Chat: `llama-3.1-sonar-small-128k-online`, `llama-3.1-sonar-large-128k-online`, and chat variants
 
+**Cohere Models:**
+- Command Family (Latest): `command-a` (111B parameter model)
+- Command R Family: `command-r-plus-08-2024`, `command-r-08-2024`, `command-r-plus`, `command-r`
+- Experimental: `command-nightly`
+- Embedding Models (v3): `embed-english-v3.0`, `embed-english-light-v3.0`, `embed-multilingual-v3.0`, `embed-multilingual-light-v3.0`
+- Embedding Models (v2): `embed-english-v2.0`, `embed-english-light-v2.0`, `embed-multilingual-v2.0`
+
 **Other Providers:**
-- Mistral, Cohere, Groq models
+- Mistral, Groq models
 - And 10+ more providers
 
 ### Open WebUI Settings

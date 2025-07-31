@@ -172,14 +172,30 @@ model_list:
       model: gemini/gemini-pro-vision
       api_key: os.environ/GEMINI_API_KEY
   
-  # Cohere Models
-  - model_name: command-r
+  # Cohere Models - Command Family
+  - model_name: command-a
     litellm_params:
-      model: cohere/command-r
+      model: cohere/command-a-03-2025
+      api_key: os.environ/COHERE_API_KEY
+  - model_name: command-r-plus-08-2024
+    litellm_params:
+      model: cohere/command-r-plus-08-2024
+      api_key: os.environ/COHERE_API_KEY
+  - model_name: command-r-08-2024
+    litellm_params:
+      model: cohere/command-r-08-2024
       api_key: os.environ/COHERE_API_KEY
   - model_name: command-r-plus
     litellm_params:
       model: cohere/command-r-plus
+      api_key: os.environ/COHERE_API_KEY
+  - model_name: command-r
+    litellm_params:
+      model: cohere/command-r
+      api_key: os.environ/COHERE_API_KEY
+  - model_name: command-nightly
+    litellm_params:
+      model: cohere/command-nightly
       api_key: os.environ/COHERE_API_KEY
   
   # Mistral Models
@@ -318,7 +334,7 @@ model_list:
       api_key: os.environ/AZURE_API_KEY
       api_version: os.environ/AZURE_API_VERSION
   
-  # Embedding Models
+  # Embedding Models - OpenAI
   - model_name: text-embedding-3-small
     litellm_params:
       model: openai/text-embedding-3-small
@@ -331,6 +347,44 @@ model_list:
     litellm_params:
       model: openai/text-embedding-ada-002
       api_key: os.environ/OPENAI_API_KEY
+  
+  # Embedding Models - Cohere
+  - model_name: embed-english-v3.0
+    litellm_params:
+      model: cohere/embed-english-v3.0
+      api_key: os.environ/COHERE_API_KEY
+      input_type: search_document
+  - model_name: embed-english-light-v3.0
+    litellm_params:
+      model: cohere/embed-english-light-v3.0
+      api_key: os.environ/COHERE_API_KEY
+      input_type: search_document
+  - model_name: embed-multilingual-v3.0
+    litellm_params:
+      model: cohere/embed-multilingual-v3.0
+      api_key: os.environ/COHERE_API_KEY
+      input_type: search_document
+  - model_name: embed-multilingual-light-v3.0
+    litellm_params:
+      model: cohere/embed-multilingual-light-v3.0
+      api_key: os.environ/COHERE_API_KEY
+      input_type: search_document
+  
+  # Embedding Models - Legacy Cohere v2
+  - model_name: embed-english-v2.0
+    litellm_params:
+      model: cohere/embed-english-v2.0
+      api_key: os.environ/COHERE_API_KEY
+  - model_name: embed-english-light-v2.0
+    litellm_params:
+      model: cohere/embed-english-light-v2.0
+      api_key: os.environ/COHERE_API_KEY
+  - model_name: embed-multilingual-v2.0
+    litellm_params:
+      model: cohere/embed-multilingual-v2.0
+      api_key: os.environ/COHERE_API_KEY
+  
+  # Embedding Models - Voyage
   - model_name: voyage-2
     litellm_params:
       model: voyage/voyage-2
@@ -393,26 +447,29 @@ router_settings:
   
   # Model fallbacks
   model_group_alias: {
-    "sonar-reasoning-pro": ["sonar-reasoning-pro", "r1-1776", "sonar-reasoning", "o3", "claude-opus-4", "grok-4"],
-    "sonar-pro": ["sonar-pro", "sonar", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash"],
-    "sonar-deep-research": ["sonar-deep-research", "sonar-reasoning-pro", "sonar-pro", "gpt-4o", "claude-opus-4"],
-    "grok-4": ["grok-4", "grok-4-latest", "grok-3", "sonar-reasoning-pro", "claude-opus-4", "o3", "gpt-4o"],
-    "grok-3": ["grok-3", "grok-beta", "sonar-pro", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash"],
-    "grok-3-mini": ["grok-3-mini", "grok-beta", "sonar", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite"],
-    "gemini-2.5-pro": ["gemini-2.5-pro", "gemini-2.0-pro-exp", "gemini-1.5-pro", "sonar-reasoning-pro", "claude-opus-4", "grok-4", "gpt-4o"],
-    "gemini-2.5-flash": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "sonar-pro", "claude-3.5-sonnet", "grok-3", "gpt-4o"],
-    "gemini-2.5-flash-lite": ["gemini-2.5-flash-lite", "gemini-2.0-flash-lite", "gemini-1.5-flash", "sonar", "claude-3.5-haiku", "grok-3-mini", "gpt-4o-mini"],
-    "claude-opus-4": ["claude-opus-4", "claude-3.5-sonnet", "claude-3-opus", "sonar-reasoning-pro", "grok-4", "gemini-2.5-pro", "gpt-4o"],
-    "claude-sonnet-4": ["claude-sonnet-4", "claude-3.5-sonnet", "sonar-pro", "grok-3", "gemini-2.5-flash", "gpt-4o", "claude-3-sonnet"],
-    "claude-3.5-sonnet": ["claude-3.5-sonnet", "claude-3-sonnet", "sonar-pro", "grok-3", "gpt-4o", "gemini-2.5-flash", "gemini-1.5-pro"],
-    "claude-3.5-haiku": ["claude-3.5-haiku", "claude-3-haiku", "sonar", "grok-3-mini", "gpt-4o-mini", "gemini-2.5-flash-lite", "gemini-1.5-flash"],
-    "gpt-4o": ["gpt-4o", "gpt-4.1", "sonar-pro", "grok-4", "claude-sonnet-4", "claude-3.5-sonnet", "gemini-2.5-flash", "gemini-1.5-pro"],
-    "gpt-4o-mini": ["gpt-4o-mini", "gpt-4.1-mini", "sonar", "grok-3-mini", "claude-3.5-haiku", "claude-3-haiku", "gemini-2.5-flash-lite", "gemini-1.5-flash"],
-    "o3": ["o3", "o3-pro", "o1", "sonar-reasoning-pro", "r1-1776", "grok-4", "claude-opus-4", "gemini-2.5-pro", "gpt-4o"],
-    "o3-mini": ["o3-mini", "o1-mini", "sonar-reasoning", "grok-3-mini", "gpt-4o-mini", "claude-3.5-haiku", "gemini-2.5-flash-lite"],
-    "r1-1776": ["r1-1776", "sonar-reasoning-pro", "o3", "grok-4", "claude-opus-4"],
-    "gpt-4": ["gpt-4", "gpt-4o", "claude-3-opus", "gemini-1.5-pro"],
-    "gpt-3.5-turbo": ["gpt-3.5-turbo", "gpt-4o-mini", "claude-3-haiku", "gemini-1.5-flash"],
+    "command-a": ["command-a", "command-r-plus-08-2024", "command-r-plus", "claude-opus-4", "gpt-4o", "gemini-2.5-pro"],
+    "command-r-plus": ["command-r-plus-08-2024", "command-r-plus", "command-r", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash"],
+    "command-r": ["command-r-08-2024", "command-r", "command-nightly", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite"],
+    "sonar-reasoning-pro": ["sonar-reasoning-pro", "r1-1776", "sonar-reasoning", "o3", "claude-opus-4", "grok-4", "command-a"],
+    "sonar-pro": ["sonar-pro", "sonar", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "command-r-plus"],
+    "sonar-deep-research": ["sonar-deep-research", "sonar-reasoning-pro", "sonar-pro", "gpt-4o", "claude-opus-4", "command-a"],
+    "grok-4": ["grok-4", "grok-4-latest", "grok-3", "sonar-reasoning-pro", "claude-opus-4", "o3", "gpt-4o", "command-a"],
+    "grok-3": ["grok-3", "grok-beta", "sonar-pro", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "command-r-plus"],
+    "grok-3-mini": ["grok-3-mini", "grok-beta", "sonar", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite", "command-r"],
+    "gemini-2.5-pro": ["gemini-2.5-pro", "gemini-2.0-pro-exp", "gemini-1.5-pro", "sonar-reasoning-pro", "claude-opus-4", "grok-4", "gpt-4o", "command-a"],
+    "gemini-2.5-flash": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "sonar-pro", "claude-3.5-sonnet", "grok-3", "gpt-4o", "command-r-plus"],
+    "gemini-2.5-flash-lite": ["gemini-2.5-flash-lite", "gemini-2.0-flash-lite", "gemini-1.5-flash", "sonar", "claude-3.5-haiku", "grok-3-mini", "gpt-4o-mini", "command-r"],
+    "claude-opus-4": ["claude-opus-4", "claude-3.5-sonnet", "claude-3-opus", "sonar-reasoning-pro", "grok-4", "gemini-2.5-pro", "gpt-4o", "command-a"],
+    "claude-sonnet-4": ["claude-sonnet-4", "claude-3.5-sonnet", "sonar-pro", "grok-3", "gemini-2.5-flash", "gpt-4o", "claude-3-sonnet", "command-r-plus"],
+    "claude-3.5-sonnet": ["claude-3.5-sonnet", "claude-3-sonnet", "sonar-pro", "grok-3", "gpt-4o", "gemini-2.5-flash", "gemini-1.5-pro", "command-r-plus"],
+    "claude-3.5-haiku": ["claude-3.5-haiku", "claude-3-haiku", "sonar", "grok-3-mini", "gpt-4o-mini", "gemini-2.5-flash-lite", "gemini-1.5-flash", "command-r"],
+    "gpt-4o": ["gpt-4o", "gpt-4.1", "sonar-pro", "grok-4", "claude-sonnet-4", "claude-3.5-sonnet", "gemini-2.5-flash", "gemini-1.5-pro", "command-r-plus"],
+    "gpt-4o-mini": ["gpt-4o-mini", "gpt-4.1-mini", "sonar", "grok-3-mini", "claude-3.5-haiku", "claude-3-haiku", "gemini-2.5-flash-lite", "gemini-1.5-flash", "command-r"],
+    "o3": ["o3", "o3-pro", "o1", "sonar-reasoning-pro", "r1-1776", "grok-4", "claude-opus-4", "gemini-2.5-pro", "gpt-4o", "command-a"],
+    "o3-mini": ["o3-mini", "o1-mini", "sonar-reasoning", "grok-3-mini", "gpt-4o-mini", "claude-3.5-haiku", "gemini-2.5-flash-lite", "command-r"],
+    "r1-1776": ["r1-1776", "sonar-reasoning-pro", "o3", "grok-4", "claude-opus-4", "command-a"],
+    "gpt-4": ["gpt-4", "gpt-4o", "claude-3-opus", "gemini-1.5-pro", "command-r-plus"],
+    "gpt-3.5-turbo": ["gpt-3.5-turbo", "gpt-4o-mini", "claude-3-haiku", "gemini-1.5-flash", "command-r"],
   }
   
   # Redis settings for load balancing

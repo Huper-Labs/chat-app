@@ -87,8 +87,13 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Claude 3.5 Family: `claude-3.5-sonnet`, `claude-3.5-haiku`
 - Claude 3 Family: `claude-3-opus`, `claude-3-sonnet`, `claude-3-haiku`
 
+**Google Models:**
+- Gemini 2.5 Family (Latest with Thinking): `gemini-2.5-pro`, `gemini-2.5-flash`, `gemini-2.5-flash-lite`
+- Gemini 2.0 Family: `gemini-2.0-flash`, `gemini-2.0-pro-exp`, `gemini-2.0-flash-lite`, `gemini-2.0-flash-live`
+- Gemini 1.5 Family: `gemini-1.5-pro`, `gemini-1.5-flash`
+- Legacy: `gemini-pro`, `gemini-pro-vision`
+
 **Other Providers:**
-- Google Gemini Pro, Gemini 1.5 Pro/Flash
 - Mistral, Cohere, Groq models
 - And 10+ more providers
 

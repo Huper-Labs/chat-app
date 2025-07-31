@@ -198,26 +198,122 @@ model_list:
       model: cohere/command-nightly
       api_key: os.environ/COHERE_API_KEY
   
-  # Mistral Models
-  - model_name: mistral-tiny
+  # Mistral Models - Latest
+  - model_name: pixtral-large
     litellm_params:
-      model: mistral/mistral-tiny
-      api_key: os.environ/MISTRAL_API_KEY
-  - model_name: mistral-small
-    litellm_params:
-      model: mistral/mistral-small-latest
-      api_key: os.environ/MISTRAL_API_KEY
-  - model_name: mistral-medium
-    litellm_params:
-      model: mistral/mistral-medium-latest
+      model: mistral/pixtral-large-latest
       api_key: os.environ/MISTRAL_API_KEY
   - model_name: mistral-large
     litellm_params:
       model: mistral/mistral-large-latest
       api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mistral-medium
+    litellm_params:
+      model: mistral/mistral-medium-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mistral-small
+    litellm_params:
+      model: mistral/mistral-small-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mistral-saba
+    litellm_params:
+      model: mistral/mistral-saba-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Reasoning
+  - model_name: magistral-medium
+    litellm_params:
+      model: mistral/magistral-medium
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: magistral-small
+    litellm_params:
+      model: mistral/magistral-small
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Edge
+  - model_name: ministral-8b
+    litellm_params:
+      model: mistral/ministral-8b-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: ministral-3b
+    litellm_params:
+      model: mistral/ministral-3b-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Coding
+  - model_name: codestral
+    litellm_params:
+      model: mistral/codestral-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: devstral-medium
+    litellm_params:
+      model: mistral/devstral-medium-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: devstral-small
+    litellm_params:
+      model: mistral/devstral-small-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: codestral-mamba
+    litellm_params:
+      model: mistral/codestral-mamba-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Multimodal
+  - model_name: pixtral-12b
+    litellm_params:
+      model: mistral/pixtral-12b-2409
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Voice
+  - model_name: voxtral-small
+    litellm_params:
+      model: mistral/voxtral-small-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: voxtral-mini
+    litellm_params:
+      model: mistral/voxtral-mini-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Specialized
+  - model_name: mistral-ocr
+    litellm_params:
+      model: mistral/mistral-ocr-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mathstral-7b
+    litellm_params:
+      model: mistral/mathstral-7b-v0.1
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mistral-moderation
+    litellm_params:
+      model: mistral/mistral-moderation-latest
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Open Source
+  - model_name: mistral-nemo
+    litellm_params:
+      model: mistral/open-mistral-nemo
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mistral-7b
+    litellm_params:
+      model: mistral/open-mistral-7b
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mixtral-8x7b
+    litellm_params:
+      model: mistral/open-mixtral-8x7b
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: mixtral-8x22b
+    litellm_params:
+      model: mistral/open-mixtral-8x22b
+      api_key: os.environ/MISTRAL_API_KEY
+  
+  # Mistral Models - Legacy
+  - model_name: mistral-tiny
+    litellm_params:
+      model: mistral/mistral-tiny
+      api_key: os.environ/MISTRAL_API_KEY
   
   # Groq Models (Fast Inference)
-  - model_name: mixtral-8x7b
+  - model_name: groq-mixtral-8x7b
     litellm_params:
       model: groq/mixtral-8x7b-32768
       api_key: os.environ/GROQ_API_KEY
@@ -384,6 +480,12 @@ model_list:
       model: cohere/embed-multilingual-v2.0
       api_key: os.environ/COHERE_API_KEY
   
+  # Embedding Models - Mistral
+  - model_name: mistral-embed
+    litellm_params:
+      model: mistral/mistral-embed
+      api_key: os.environ/MISTRAL_API_KEY
+  
   # Embedding Models - Voyage
   - model_name: voyage-2
     litellm_params:
@@ -447,29 +549,38 @@ router_settings:
   
   # Model fallbacks
   model_group_alias: {
-    "command-a": ["command-a", "command-r-plus-08-2024", "command-r-plus", "claude-opus-4", "gpt-4o", "gemini-2.5-pro"],
-    "command-r-plus": ["command-r-plus-08-2024", "command-r-plus", "command-r", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash"],
-    "command-r": ["command-r-08-2024", "command-r", "command-nightly", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite"],
-    "sonar-reasoning-pro": ["sonar-reasoning-pro", "r1-1776", "sonar-reasoning", "o3", "claude-opus-4", "grok-4", "command-a"],
-    "sonar-pro": ["sonar-pro", "sonar", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "command-r-plus"],
-    "sonar-deep-research": ["sonar-deep-research", "sonar-reasoning-pro", "sonar-pro", "gpt-4o", "claude-opus-4", "command-a"],
-    "grok-4": ["grok-4", "grok-4-latest", "grok-3", "sonar-reasoning-pro", "claude-opus-4", "o3", "gpt-4o", "command-a"],
-    "grok-3": ["grok-3", "grok-beta", "sonar-pro", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "command-r-plus"],
-    "grok-3-mini": ["grok-3-mini", "grok-beta", "sonar", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite", "command-r"],
-    "gemini-2.5-pro": ["gemini-2.5-pro", "gemini-2.0-pro-exp", "gemini-1.5-pro", "sonar-reasoning-pro", "claude-opus-4", "grok-4", "gpt-4o", "command-a"],
-    "gemini-2.5-flash": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "sonar-pro", "claude-3.5-sonnet", "grok-3", "gpt-4o", "command-r-plus"],
-    "gemini-2.5-flash-lite": ["gemini-2.5-flash-lite", "gemini-2.0-flash-lite", "gemini-1.5-flash", "sonar", "claude-3.5-haiku", "grok-3-mini", "gpt-4o-mini", "command-r"],
-    "claude-opus-4": ["claude-opus-4", "claude-3.5-sonnet", "claude-3-opus", "sonar-reasoning-pro", "grok-4", "gemini-2.5-pro", "gpt-4o", "command-a"],
-    "claude-sonnet-4": ["claude-sonnet-4", "claude-3.5-sonnet", "sonar-pro", "grok-3", "gemini-2.5-flash", "gpt-4o", "claude-3-sonnet", "command-r-plus"],
-    "claude-3.5-sonnet": ["claude-3.5-sonnet", "claude-3-sonnet", "sonar-pro", "grok-3", "gpt-4o", "gemini-2.5-flash", "gemini-1.5-pro", "command-r-plus"],
-    "claude-3.5-haiku": ["claude-3.5-haiku", "claude-3-haiku", "sonar", "grok-3-mini", "gpt-4o-mini", "gemini-2.5-flash-lite", "gemini-1.5-flash", "command-r"],
-    "gpt-4o": ["gpt-4o", "gpt-4.1", "sonar-pro", "grok-4", "claude-sonnet-4", "claude-3.5-sonnet", "gemini-2.5-flash", "gemini-1.5-pro", "command-r-plus"],
-    "gpt-4o-mini": ["gpt-4o-mini", "gpt-4.1-mini", "sonar", "grok-3-mini", "claude-3.5-haiku", "claude-3-haiku", "gemini-2.5-flash-lite", "gemini-1.5-flash", "command-r"],
-    "o3": ["o3", "o3-pro", "o1", "sonar-reasoning-pro", "r1-1776", "grok-4", "claude-opus-4", "gemini-2.5-pro", "gpt-4o", "command-a"],
-    "o3-mini": ["o3-mini", "o1-mini", "sonar-reasoning", "grok-3-mini", "gpt-4o-mini", "claude-3.5-haiku", "gemini-2.5-flash-lite", "command-r"],
-    "r1-1776": ["r1-1776", "sonar-reasoning-pro", "o3", "grok-4", "claude-opus-4", "command-a"],
-    "gpt-4": ["gpt-4", "gpt-4o", "claude-3-opus", "gemini-1.5-pro", "command-r-plus"],
-    "gpt-3.5-turbo": ["gpt-3.5-turbo", "gpt-4o-mini", "claude-3-haiku", "gemini-1.5-flash", "command-r"],
+    "pixtral-large": ["pixtral-large", "mistral-large", "claude-opus-4", "gpt-4o", "gemini-2.5-pro", "command-a"],
+    "mistral-large": ["mistral-large", "pixtral-large", "mistral-medium", "claude-opus-4", "gpt-4o", "gemini-2.5-pro", "command-a"],
+    "mistral-medium": ["mistral-medium", "mistral-large", "mistral-small", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "command-r-plus"],
+    "mistral-small": ["mistral-small", "mistral-saba", "ministral-8b", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite", "command-r"],
+    "magistral-medium": ["magistral-medium", "magistral-small", "o3", "sonar-reasoning-pro", "claude-opus-4", "grok-4"],
+    "magistral-small": ["magistral-small", "magistral-medium", "o1", "sonar-reasoning", "claude-3.5-sonnet"],
+    "codestral": ["codestral", "devstral-medium", "devstral-small", "gpt-4.1", "claude-sonnet-4"],
+    "devstral-medium": ["devstral-medium", "codestral", "devstral-small", "gpt-4.1", "claude-3.5-sonnet"],
+    "devstral-small": ["devstral-small", "codestral-mamba", "gpt-4.1-mini", "claude-3.5-haiku"],
+    "command-a": ["command-a", "command-r-plus-08-2024", "command-r-plus", "claude-opus-4", "gpt-4o", "gemini-2.5-pro", "mistral-large"],
+    "command-r-plus": ["command-r-plus-08-2024", "command-r-plus", "command-r", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "mistral-medium"],
+    "command-r": ["command-r-08-2024", "command-r", "command-nightly", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite", "mistral-small"],
+    "sonar-reasoning-pro": ["sonar-reasoning-pro", "r1-1776", "sonar-reasoning", "o3", "claude-opus-4", "grok-4", "command-a", "magistral-medium"],
+    "sonar-pro": ["sonar-pro", "sonar", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "command-r-plus", "mistral-medium"],
+    "sonar-deep-research": ["sonar-deep-research", "sonar-reasoning-pro", "sonar-pro", "gpt-4o", "claude-opus-4", "command-a", "mistral-large"],
+    "grok-4": ["grok-4", "grok-4-latest", "grok-3", "sonar-reasoning-pro", "claude-opus-4", "o3", "gpt-4o", "command-a", "mistral-large"],
+    "grok-3": ["grok-3", "grok-beta", "sonar-pro", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash", "command-r-plus", "mistral-medium"],
+    "grok-3-mini": ["grok-3-mini", "grok-beta", "sonar", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite", "command-r", "mistral-small"],
+    "gemini-2.5-pro": ["gemini-2.5-pro", "gemini-2.0-pro-exp", "gemini-1.5-pro", "sonar-reasoning-pro", "claude-opus-4", "grok-4", "gpt-4o", "command-a", "mistral-large"],
+    "gemini-2.5-flash": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "sonar-pro", "claude-3.5-sonnet", "grok-3", "gpt-4o", "command-r-plus", "mistral-medium"],
+    "gemini-2.5-flash-lite": ["gemini-2.5-flash-lite", "gemini-2.0-flash-lite", "gemini-1.5-flash", "sonar", "claude-3.5-haiku", "grok-3-mini", "gpt-4o-mini", "command-r", "mistral-small"],
+    "claude-opus-4": ["claude-opus-4", "claude-3.5-sonnet", "claude-3-opus", "sonar-reasoning-pro", "grok-4", "gemini-2.5-pro", "gpt-4o", "command-a", "mistral-large"],
+    "claude-sonnet-4": ["claude-sonnet-4", "claude-3.5-sonnet", "sonar-pro", "grok-3", "gemini-2.5-flash", "gpt-4o", "claude-3-sonnet", "command-r-plus", "mistral-medium"],
+    "claude-3.5-sonnet": ["claude-3.5-sonnet", "claude-3-sonnet", "sonar-pro", "grok-3", "gpt-4o", "gemini-2.5-flash", "gemini-1.5-pro", "command-r-plus", "mistral-medium"],
+    "claude-3.5-haiku": ["claude-3.5-haiku", "claude-3-haiku", "sonar", "grok-3-mini", "gpt-4o-mini", "gemini-2.5-flash-lite", "gemini-1.5-flash", "command-r", "mistral-small"],
+    "gpt-4o": ["gpt-4o", "gpt-4.1", "sonar-pro", "grok-4", "claude-sonnet-4", "claude-3.5-sonnet", "gemini-2.5-flash", "gemini-1.5-pro", "command-r-plus", "mistral-large"],
+    "gpt-4o-mini": ["gpt-4o-mini", "gpt-4.1-mini", "sonar", "grok-3-mini", "claude-3.5-haiku", "claude-3-haiku", "gemini-2.5-flash-lite", "gemini-1.5-flash", "command-r", "mistral-small"],
+    "o3": ["o3", "o3-pro", "o1", "sonar-reasoning-pro", "r1-1776", "grok-4", "claude-opus-4", "gemini-2.5-pro", "gpt-4o", "command-a", "magistral-medium"],
+    "o3-mini": ["o3-mini", "o1-mini", "sonar-reasoning", "grok-3-mini", "gpt-4o-mini", "claude-3.5-haiku", "gemini-2.5-flash-lite", "command-r", "magistral-small"],
+    "r1-1776": ["r1-1776", "sonar-reasoning-pro", "o3", "grok-4", "claude-opus-4", "command-a", "magistral-medium"],
+    "gpt-4": ["gpt-4", "gpt-4o", "claude-3-opus", "gemini-1.5-pro", "command-r-plus", "mistral-large"],
+    "gpt-3.5-turbo": ["gpt-3.5-turbo", "gpt-4o-mini", "claude-3-haiku", "gemini-1.5-flash", "command-r", "mistral-small"],
   }
   
   # Redis settings for load balancing

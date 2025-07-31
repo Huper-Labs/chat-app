@@ -111,8 +111,19 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Embedding Models (v3): `embed-english-v3.0`, `embed-english-light-v3.0`, `embed-multilingual-v3.0`, `embed-multilingual-light-v3.0`
 - Embedding Models (v2): `embed-english-v2.0`, `embed-english-light-v2.0`, `embed-multilingual-v2.0`
 
+**Mistral Models:**
+- Latest Models: `pixtral-large` (124B multimodal), `mistral-large`, `mistral-medium`, `mistral-small`, `mistral-saba`
+- Reasoning Models: `magistral-medium`, `magistral-small` (AI reasoning with chain-of-thought)
+- Edge Models: `ministral-8b`, `ministral-3b` (optimized for resource-constrained environments)
+- Coding Models: `codestral`, `devstral-medium`, `devstral-small`, `codestral-mamba`
+- Multimodal: `pixtral-12b` (image understanding)
+- Voice Models: `voxtral-small`, `voxtral-mini`
+- Specialized: `mistral-ocr` (OCR service), `mathstral-7b` (mathematics), `mistral-moderation` (content moderation)
+- Open Source: `mistral-nemo`, `mistral-7b`, `mixtral-8x7b`, `mixtral-8x22b`
+- Embedding: `mistral-embed`
+
 **Other Providers:**
-- Mistral, Groq models
+- Groq models (fast inference)
 - And 10+ more providers
 
 ### Open WebUI Settings

@@ -98,8 +98,14 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Grok 3 Series: `grok-3`, `grok-3-mini`
 - Other Models: `grok-beta`, `grok-2-vision-latest`
 
+**Perplexity Models:**
+- Sonar Family: `sonar-pro`, `sonar`
+- Reasoning Models: `sonar-reasoning-pro`, `sonar-reasoning`, `r1-1776`
+- Research: `sonar-deep-research`
+- Legacy/Chat: `llama-3.1-sonar-small-128k-online`, `llama-3.1-sonar-large-128k-online`, and chat variants
+
 **Other Providers:**
-- Mistral, Cohere, Groq, Perplexity models
+- Mistral, Cohere, Groq models
 - And 10+ more providers
 
 ### Open WebUI Settings

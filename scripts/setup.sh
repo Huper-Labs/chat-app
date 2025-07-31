@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create volume directories
-mkdir -p volumes/{postgres,redis,open-webui}
+mkdir -p volumes/{postgres,redis,open-webui,litellm}
 mkdir -p volumes/cache/embedding/models
 mkdir -p volumes/cache/whisper/models
 mkdir -p config/open-webui
@@ -13,10 +13,10 @@ if [ ! -f .env ]; then
 fi
 
 # Pull latest images
-docker-compose pull
+docker compose pull
 
 # Start services
-docker-compose up -d
+docker compose up -d
 
 echo "Setup complete! Services starting up..."
 echo "Open WebUI will be available at http://localhost:3000"

@@ -163,6 +163,7 @@ services:
       # UI Settings
       - UI_USERNAME=${UI_USERNAME}
       - UI_PASSWORD=${UI_PASSWORD}
+      - PROXY_ADMIN_ID=${PROXY_ADMIN_ID}
       
       # Admin Settings
       - DISABLE_ADMIN_UI=${DISABLE_ADMIN_UI}

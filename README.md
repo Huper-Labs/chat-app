@@ -27,18 +27,26 @@ This repository contains a Docker Compose setup for running Open WebUI and LiteL
    ./scripts/setup.sh
    ```
 
-3. Edit the `.env` file with your actual values:
+3. Edit the `.env` file with your actual values. Key configurations include:
    ```bash
+   # Core settings
    POSTGRES_PASSWORD=your-secure-password
    WEBUI_SECRET_KEY=your-secret-key
    LITELLM_MASTER_KEY=your-master-key
+   WEBUI_URL=http://localhost:3000  # Update for production
+   
+   # LLM Provider API Keys (prefix with PROVIDER_)
+   PROVIDER_OPENAI_API_KEY=sk-...
+   PROVIDER_ANTHROPIC_API_KEY=sk-ant-...
+   # Add other providers as needed
    ```
 
-4. Add your LLM provider API keys to `.env`:
-   ```bash
-   OPENAI_API_KEY=your-openai-key
-   ANTHROPIC_API_KEY=your-anthropic-key
-   ```
+4. Review and adjust feature flags in `.env`:
+   - `ENABLE_SIGNUP`: Allow new user registrations
+   - `ENABLE_WEB_SEARCH`: Enable web search capabilities
+   - `ENABLE_IMAGE_GENERATION`: Enable image generation features
+   - `ENABLE_CODE_EXECUTION`: Enable code interpreter
+   - See `.env.example` for all available options
 
 5. Start the services:
    ```bash

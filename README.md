@@ -83,8 +83,9 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Legacy: `gpt-4`, `gpt-4-turbo`, `gpt-3.5-turbo`
 
 **Anthropic Models:**
-- Claude 3 Opus, Sonnet, Haiku
-- Claude 3.5 Sonnet
+- Claude 4 Family (Latest): `claude-opus-4`, `claude-sonnet-4`
+- Claude 3.5 Family: `claude-3.5-sonnet`, `claude-3.5-haiku`
+- Claude 3 Family: `claude-3-opus`, `claude-3-sonnet`, `claude-3-haiku`
 
 **Other Providers:**
 - Google Gemini Pro, Gemini 1.5 Pro/Flash

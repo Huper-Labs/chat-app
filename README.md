@@ -74,10 +74,22 @@ This repository contains a Docker Compose setup for running Open WebUI and LiteL
 ### LiteLLM Models
 
 Edit `config/litellm/config.yaml` to add or modify available models. The default configuration includes:
-- GPT-4
-- GPT-3.5 Turbo
-- Claude 3 Opus
-- Claude 3 Sonnet
+
+**OpenAI Models:**
+- GPT-4o Series: `gpt-4o`, `gpt-4o-mini`
+- GPT-4.1 Series (Coding-Focused): `gpt-4.1`, `gpt-4.1-mini`, `gpt-4.1-nano`
+- o-Series (Reasoning): `o1`, `o1-mini`, `o1-pro`
+- o3 Series (Latest): `o3`, `o3-pro`, `o3-mini`
+- Legacy: `gpt-4`, `gpt-4-turbo`, `gpt-3.5-turbo`
+
+**Anthropic Models:**
+- Claude 3 Opus, Sonnet, Haiku
+- Claude 3.5 Sonnet
+
+**Other Providers:**
+- Google Gemini Pro, Gemini 1.5 Pro/Flash
+- Mistral, Cohere, Groq models
+- And 10+ more providers
 
 ### Open WebUI Settings
 

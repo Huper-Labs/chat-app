@@ -1,5 +1,68 @@
 model_list:
-  # OpenAI Models
+  # OpenAI Models - GPT-4o Series
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  
+  # OpenAI Models - GPT-4.1 Series (Coding-Focused)
+  - model_name: gpt-4.1
+    litellm_params:
+      model: openai/gpt-4.1
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: gpt-4.1-mini
+    litellm_params:
+      model: openai/gpt-4.1-mini
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: gpt-4.1-nano
+    litellm_params:
+      model: openai/gpt-4.1-nano
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  
+  # OpenAI Models - o-Series (Reasoning Models)
+  - model_name: o1
+    litellm_params:
+      model: openai/o1
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: o1-mini
+    litellm_params:
+      model: openai/o1-mini
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: o1-pro
+    litellm_params:
+      model: openai/o1-pro
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  
+  # OpenAI Models - o3 Series (Latest Reasoning Models)
+  - model_name: o3
+    litellm_params:
+      model: openai/o3
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: o3-pro
+    litellm_params:
+      model: openai/o3-pro
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: o3-mini
+    litellm_params:
+      model: openai/o3-mini
+      api_key: os.environ/OPENAI_API_KEY
+      merge_reasoning_content_in_choices: true
+  
+  # OpenAI Models - Legacy
   - model_name: gpt-4
     litellm_params:
       model: openai/gpt-4
@@ -209,8 +272,12 @@ router_settings:
   
   # Model fallbacks
   model_group_alias: {
-    "gpt-4": ["gpt-4", "claude-3-opus", "gemini-1.5-pro"],
-    "gpt-3.5-turbo": ["gpt-3.5-turbo", "claude-3-haiku", "gemini-1.5-flash"],
+    "gpt-4o": ["gpt-4o", "gpt-4.1", "claude-3-opus", "gemini-1.5-pro"],
+    "gpt-4o-mini": ["gpt-4o-mini", "gpt-4.1-mini", "claude-3-haiku", "gemini-1.5-flash"],
+    "o3": ["o3", "o3-pro", "o1", "gpt-4o"],
+    "o3-mini": ["o3-mini", "o1-mini", "gpt-4o-mini"],
+    "gpt-4": ["gpt-4", "gpt-4o", "claude-3-opus", "gemini-1.5-pro"],
+    "gpt-3.5-turbo": ["gpt-3.5-turbo", "gpt-4o-mini", "claude-3-haiku", "gemini-1.5-flash"],
   }
   
   # Redis settings for load balancing

@@ -68,11 +68,12 @@ services:
       
       # Websocket Support
       - ENABLE_WEBSOCKET_SUPPORT=${ENABLE_WEBSOCKET_SUPPORT}
-      - WEBSOCKET_MANAGER=${WEBSOCKET_MANAGER:-}
-      - WEBSOCKET_REDIS_URL=${WEBSOCKET_REDIS_URL:-}
+      - WEBSOCKET_MANAGER=${WEBSOCKET_MANAGER:-redis}
+      - WEBSOCKET_REDIS_URL=${WEBSOCKET_REDIS_URL:-redis://redis:6379/1}
+      - REDIS_KEY_PREFIX=${REDIS_KEY_PREFIX:-open-webui}
       
       # Redis (for multi-node deployments)
-      - REDIS_URL=${REDIS_URL:-}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
       
       # Audio/STT Configuration
       - AUDIO_STT_ENGINE=${AUDIO_STT_ENGINE:-}

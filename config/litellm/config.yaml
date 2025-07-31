@@ -305,30 +305,6 @@ model_list:
       model: mistral/mistral-tiny
       api_key: os.environ/MISTRAL_API_KEY
   
-  # Groq Models (Fast Inference)
-  - model_name: groq-mixtral-8x7b
-    litellm_params:
-      model: groq/mixtral-8x7b-32768
-      api_key: os.environ/GROQ_API_KEY
-  - model_name: llama3-70b
-    litellm_params:
-      model: groq/llama3-70b-8192
-      api_key: os.environ/GROQ_API_KEY
-  - model_name: llama3-8b
-    litellm_params:
-      model: groq/llama3-8b-8192
-      api_key: os.environ/GROQ_API_KEY
-  
-  # Together AI Models
-  - model_name: llama-3-70b-together
-    litellm_params:
-      model: together_ai/meta-llama/Llama-3-70b-chat-hf
-      api_key: os.environ/TOGETHERAI_API_KEY
-  - model_name: mixtral-8x22b
-    litellm_params:
-      model: together_ai/mistralai/Mixtral-8x22B-Instruct-v0.1
-      api_key: os.environ/TOGETHERAI_API_KEY
-  
   # Perplexity Models - Sonar Family
   - model_name: sonar-pro
     litellm_params:

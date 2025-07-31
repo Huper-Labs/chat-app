@@ -12,7 +12,7 @@ This repository contains a Docker Compose setup for running Open WebUI and LiteL
   - Speech-to-text with Whisper
   - Auto-tagging and autocomplete
 - **LiteLLM**: Unified proxy for multiple LLM providers
-  - Supports OpenAI, Anthropic, Google, Cohere, Mistral, Groq, and more
+  - Supports OpenAI, Anthropic, Google, Cohere, Mistral, xAI, Perplexity, and more
   - Load balancing and failover
   - Usage tracking and rate limiting
 - **PostgreSQL**: Database for application data and vector storage
@@ -123,7 +123,6 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Embedding: `mistral-embed`
 
 **Other Providers:**
-- Groq models (fast inference)
 - And 10+ more providers
 
 ### Open WebUI Settings

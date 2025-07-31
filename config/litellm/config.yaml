@@ -125,14 +125,17 @@ model_list:
     litellm_params:
       model: gemini/gemini-2.5-pro
       api_key: os.environ/GEMINI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: gemini-2.5-flash
     litellm_params:
       model: gemini/gemini-2.5-flash
       api_key: os.environ/GEMINI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: gemini-2.5-flash-lite
     litellm_params:
       model: gemini/gemini-2.5-flash-lite
       api_key: os.environ/GEMINI_API_KEY
+      merge_reasoning_content_in_choices: true
   
   # Google Models - Gemini 2.0 Family
   - model_name: gemini-2.0-flash
@@ -225,10 +228,12 @@ model_list:
     litellm_params:
       model: mistral/magistral-medium
       api_key: os.environ/MISTRAL_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: magistral-small
     litellm_params:
       model: mistral/magistral-small
       api_key: os.environ/MISTRAL_API_KEY
+      merge_reasoning_content_in_choices: true
   
   # Mistral Models - Edge
   - model_name: ministral-8b
@@ -351,14 +356,17 @@ model_list:
     litellm_params:
       model: perplexity/sonar-reasoning-pro
       api_key: os.environ/PERPLEXITY_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: sonar-reasoning
     litellm_params:
       model: perplexity/sonar-reasoning
       api_key: os.environ/PERPLEXITY_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: r1-1776
     litellm_params:
       model: perplexity/r1-1776
       api_key: os.environ/PERPLEXITY_API_KEY
+      merge_reasoning_content_in_choices: true
   
   # Perplexity Models - Research
   - model_name: sonar-deep-research
@@ -389,30 +397,37 @@ model_list:
     litellm_params:
       model: xai/grok-4
       api_key: os.environ/XAI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: grok-4-latest
     litellm_params:
       model: xai/grok-4-latest
       api_key: os.environ/XAI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: grok-4-0709
     litellm_params:
       model: xai/grok-4-0709
       api_key: os.environ/XAI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: grok-3
     litellm_params:
       model: xai/grok-3
       api_key: os.environ/XAI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: grok-3-mini
     litellm_params:
       model: xai/grok-3-mini-beta
       api_key: os.environ/XAI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: grok-beta
     litellm_params:
       model: xai/grok-beta
       api_key: os.environ/XAI_API_KEY
+      merge_reasoning_content_in_choices: true
   - model_name: grok-2-vision-latest
     litellm_params:
       model: xai/grok-2-vision-latest
       api_key: os.environ/XAI_API_KEY
+      merge_reasoning_content_in_choices: true
   
   # Embedding Models - OpenAI
   - model_name: text-embedding-3-small

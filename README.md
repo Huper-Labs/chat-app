@@ -16,7 +16,11 @@ This repository contains a Docker Compose setup for running Open WebUI and LiteL
   - Load balancing and failover
   - Usage tracking and rate limiting
 - **PostgreSQL**: Database for application data and vector storage
+  - Separate databases: `openwebui` for Open WebUI, `litellm` for LiteLLM
 - **Redis**: Cache layer and websocket support for scalability
+  - Database 0: General caching operations
+  - Database 1: Websocket management
+- **Watchtower**: Automatic container updates every 5 minutes
 
 ## Prerequisites
 
@@ -59,7 +63,7 @@ This repository contains a Docker Compose setup for running Open WebUI and LiteL
 
 5. Start the services:
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
 ## Accessing the Services
@@ -123,7 +127,10 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Embedding: `mistral-embed`
 
 **Other Providers:**
-- And 10+ more providers
+- Voyage AI (embeddings)
+- Hugging Face
+- Replicate
+- And more
 
 ### Open WebUI Settings
 
@@ -133,18 +140,19 @@ Custom configurations can be added to `config/open-webui/`.
 
 ### View logs
 ```bash
-docker-compose logs -f [service-name]
+docker compose logs -f [service-name]
 ```
 
 ### Stop all services
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### Update services
+Services are automatically updated by Watchtower every 5 minutes. For manual updates:
 ```bash
-docker-compose pull
-docker-compose up -d
+docker compose pull
+docker compose up -d
 ```
 
 ### Backup data
@@ -226,6 +234,7 @@ Based on the [official tutorial](https://docs.litellm.ai/docs/tutorials/openweb_
 │   ├── postgres/          # Database files
 │   ├── redis/             # Cache data
 │   ├── open-webui/        # User data and chats
+│   ├── litellm/           # LiteLLM data
 │   └── cache/             # Model caches
 │       ├── embedding/     # Embedding models
 │       └── whisper/       # STT models
@@ -244,7 +253,7 @@ Based on the [official tutorial](https://docs.litellm.ai/docs/tutorials/openweb_
 ## Troubleshooting
 
 ### Services not starting
-- Check logs: `docker-compose logs [service-name]`
+- Check logs: `docker compose logs [service-name]`
 - Ensure all required environment variables are set
 - Verify ports 3000, 4000, 5432, and 6379 are not in use
 
@@ -253,6 +262,12 @@ Based on the [official tutorial](https://docs.litellm.ai/docs/tutorials/openweb_
 - Check database credentials in `.env` match docker-compose.yml
 
 ### LiteLLM configuration errors
-- Verify API keys are correctly set in `.env`
+- Verify API keys are correctly set in `.env` with `PROVIDER_` prefix
 - Check `config/litellm/config.yaml` syntax
 - Review LiteLLM logs for specific error messages
+- Ensure `drop_params: true` is set in litellm_settings
+
+### Redis connection issues
+- Test Redis connectivity: `docker compose exec redis redis-cli ping`
+- Check Redis logs: `docker compose logs redis`
+- Verify Redis is using correct databases (0 for cache, 1 for websockets)

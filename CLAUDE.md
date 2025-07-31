@@ -10,14 +10,14 @@ AI Testing Infrastructure using Docker Compose to run Open WebUI and LiteLLM for
 
 ### Service Management
 - `./scripts/setup.sh` - Initial setup (creates directories, copies .env template, pulls images)
-- `docker-compose up -d` - Start all services
-- `docker-compose down` - Stop all services
-- `docker-compose logs -f [service]` - View logs (services: open-webui, litellm, postgres, redis)
-- `docker-compose pull && docker-compose up -d` - Update to latest versions
+- `docker compose up -d` - Start all services (including Watchtower for auto-updates)
+- `docker compose down` - Stop all services
+- `docker compose logs -f [service]` - View logs (services: open-webui, litellm, postgres, redis, watchtower)
+- `docker compose pull && docker compose up -d` - Manual update to latest versions
 
 ### Data Management
 - `./scripts/backup.sh` - Full backup of database and volumes
-- `docker-compose run --rm postgres pg_dumpall -U postgres` - Manual database backup
+- `docker compose run --rm postgres pg_dumpall -U postgres` - Manual database backup
 
 ### Service URLs
 - Open WebUI: http://localhost:3000
@@ -27,10 +27,10 @@ AI Testing Infrastructure using Docker Compose to run Open WebUI and LiteLLM for
 ## Architecture & Service Dependencies
 
 ```
-┌─────────────────┐     ┌─────────────────┐
-│   Open WebUI    │────▶│    LiteLLM      │
-│   (Port 3000)   │     │   (Port 4000)   │
-└────────┬────────┘     └────────┬────────┘
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   Open WebUI    │────▶│    LiteLLM      │     │   Watchtower    │
+│   (Port 3000)   │     │   (Port 4000)   │     │  (Auto Updates) │
+└────────┬────────┘     └────────┬────────┘     └─────────────────┘
          │                       │
          ▼                       ▼
 ┌─────────────────┐     ┌─────────────────┐
@@ -41,8 +41,13 @@ AI Testing Infrastructure using Docker Compose to run Open WebUI and LiteLLM for
 
 - **Open WebUI** connects to LiteLLM via OpenAI-compatible API at http://litellm:4000/v1
 - **LiteLLM** routes requests to various LLM providers (OpenAI, Anthropic, Google, etc.)
-- **PostgreSQL** stores user data, chat history, and model configurations
+- **PostgreSQL** stores user data, chat history, and model configurations (separate databases)
+  - Open WebUI: `openwebui` database
+  - LiteLLM: `litellm` database
 - **Redis** provides caching for LiteLLM and websocket support for multi-node deployments
+  - Database 0: General caching operations
+  - Database 1: Websocket management for Open WebUI
+- **Watchtower** automatically updates containers every 5 minutes
 
 ## Critical Configuration Files
 
@@ -102,6 +107,15 @@ Configured in `router_settings.model_group_alias` - each model has a prioritized
 
 ### Debugging Connection Issues
 1. Check API keys in `.env` are correctly prefixed with `PROVIDER_`
-2. Verify LiteLLM logs: `docker-compose logs -f litellm`
+2. Verify LiteLLM logs: `docker compose logs -f litellm`
 3. Test direct API access: `curl http://localhost:4000/health`
 4. Ensure `drop_params: true` is set in litellm_settings for compatibility
+5. Check Redis connectivity: `docker compose exec redis redis-cli ping`
+6. Verify PostgreSQL connections: `docker compose exec postgres psql -U postgres -l`
+
+## Removed Providers
+The following providers have been removed from the configuration:
+- Groq (all models)
+- Together AI (all models)
+
+Their API key variables have also been removed from docker-compose.yml and .env.example.

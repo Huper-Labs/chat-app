@@ -490,6 +490,9 @@ general_settings:
   # Store model info in database
   store_model_in_db: true
   
+  # Store prompts in spend logs
+  store_prompts_in_spend_logs: true
+  
   # UI Authentication
   ui_username: os.environ/UI_USERNAME
   ui_password: os.environ/UI_PASSWORD

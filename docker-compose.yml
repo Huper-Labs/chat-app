@@ -25,6 +25,7 @@ services:
       - DEFAULT_USER_ROLE=${DEFAULT_USER_ROLE}
       - ENABLE_ADMIN_EXPORT=${ENABLE_ADMIN_EXPORT}
       - ENABLE_ADMIN_CHAT_ACCESS=${ENABLE_ADMIN_CHAT_ACCESS}
+      - SAFE_MODE=${SAFE_MODE}
       
       # Features
       - ENABLE_RAG_WEB_SEARCH=${ENABLE_RAG_WEB_SEARCH}
@@ -34,11 +35,16 @@ services:
       - ENABLE_CHANNELS=${ENABLE_CHANNELS}
       - ENABLE_COMMUNITY_SHARING=${ENABLE_COMMUNITY_SHARING}
       - ENABLE_MESSAGE_RATING=${ENABLE_MESSAGE_RATING}
+      - ENABLE_EVALUATION_ARENA_MODELS=${ENABLE_EVALUATION_ARENA_MODELS}
+      - ENABLE_TAGS_GENERATION=${ENABLE_TAGS_GENERATION}
+      - ENABLE_AUTOCOMPLETE_GENERATION=${ENABLE_AUTOCOMPLETE_GENERATION}
       
       # RAG Configuration
       - RAG_EMBEDDING_ENGINE=${RAG_EMBEDDING_ENGINE}
       - RAG_RERANKING_MODEL=${RAG_RERANKING_MODEL}
       - RAG_EMBEDDING_MODEL=${RAG_EMBEDDING_MODEL}
+      - RAG_EMBEDDING_MODEL_AUTO_UPDATE=${RAG_EMBEDDING_MODEL_AUTO_UPDATE}
+      - RAG_RERANKING_MODEL_AUTO_UPDATE=${RAG_RERANKING_MODEL_AUTO_UPDATE}
       - ENABLE_RAG_LOCAL_WEB_FETCH=${ENABLE_RAG_LOCAL_WEB_FETCH}
       - ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION=${ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION}
       
@@ -46,26 +52,64 @@ services:
       - WEB_SEARCH_ENGINE=${WEB_SEARCH_ENGINE}
       - WEB_SEARCH_RESULT_COUNT=${WEB_SEARCH_RESULT_COUNT}
       - WEB_SEARCH_CONCURRENT_REQUESTS=${WEB_SEARCH_CONCURRENT_REQUESTS}
+      - SEARXNG_QUERY_URL=${SEARXNG_QUERY_URL:-}
       
       # Performance
       - THREAD_POOL_SIZE=${THREAD_POOL_SIZE}
       - DATABASE_POOL_SIZE=${DATABASE_POOL_SIZE}
       - DATABASE_POOL_TIMEOUT=${DATABASE_POOL_TIMEOUT}
       
-      # Logging
-      - GLOBAL_LOG_LEVEL=${GLOBAL_LOG_LEVEL}
+      # Websocket Support
+      - ENABLE_WEBSOCKET_SUPPORT=${ENABLE_WEBSOCKET_SUPPORT}
+      - WEBSOCKET_MANAGER=${WEBSOCKET_MANAGER:-}
+      - WEBSOCKET_REDIS_URL=${WEBSOCKET_REDIS_URL:-}
       
       # Redis (for multi-node deployments)
       - REDIS_URL=${REDIS_URL:-}
-      - WEBSOCKET_REDIS_URL=${WEBSOCKET_REDIS_URL:-}
-      - WEBSOCKET_MANAGER=${WEBSOCKET_MANAGER:-}
+      
+      # Audio/STT Configuration
+      - AUDIO_STT_ENGINE=${AUDIO_STT_ENGINE:-}
+      - AUDIO_STT_MODEL=${AUDIO_STT_MODEL:-}
+      - WHISPER_MODEL=${WHISPER_MODEL:-}
+      - WHISPER_MODEL_DIR=${WHISPER_MODEL_DIR:-}
+      
+      # Code Execution
+      - CODE_EXECUTION_ENGINE=${CODE_EXECUTION_ENGINE}
+      - CODE_EXECUTION_JUPYTER_URL=${CODE_EXECUTION_JUPYTER_URL:-}
+      
+      # Logging
+      - GLOBAL_LOG_LEVEL=${GLOBAL_LOG_LEVEL}
+      
+      # GPU Support (uncomment if using NVIDIA GPU)
+      # - USE_CUDA_DOCKER=${USE_CUDA_DOCKER}
     volumes:
       - ./volumes/open-webui:/app/backend/data
       - ./config/open-webui:/app/backend/config
+      # Model cache volumes
+      - ./volumes/cache/embedding/models:/app/backend/data/cache/embedding/models
+      - ./volumes/cache/whisper/models:/app/backend/data/cache/whisper/models
     depends_on:
-      - postgres
-      - litellm
+      postgres:
+        condition: service_healthy
+      litellm:
+        condition: service_started
+      redis:
+        condition: service_healthy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Uncomment for GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
 
   litellm:
     image: ghcr.io/berriai/litellm:main-latest
@@ -83,13 +127,26 @@ services:
       - MISTRAL_API_KEY=${PROVIDER_MISTRAL_API_KEY:-}
       - PERPLEXITY_API_KEY=${PROVIDER_PERPLEXITY_API_KEY:-}
       - GROQ_API_KEY=${PROVIDER_GROQ_API_KEY:-}
+      # Additional providers
+      - AZURE_API_KEY=${PROVIDER_AZURE_API_KEY:-}
+      - HUGGINGFACE_API_KEY=${PROVIDER_HUGGINGFACE_API_KEY:-}
+      - REPLICATE_API_KEY=${PROVIDER_REPLICATE_API_KEY:-}
+      - TOGETHERAI_API_KEY=${PROVIDER_TOGETHERAI_API_KEY:-}
     volumes:
       - ./config/litellm/config.yaml:/app/config.yaml
     command: ["--config", "/app/config.yaml", "--port", "4000"]
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   postgres:
     image: postgres:15-alpine
@@ -97,11 +154,18 @@ services:
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
     volumes:
       - ./volumes/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   redis:
     image: redis:7-alpine
@@ -110,4 +174,28 @@ services:
       - ./volumes/redis:/data
     ports:
       - "6379:6379"
+    command: redis-server --save 30 1
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Optional: Automatic updates with Watchtower
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: watchtower
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: --interval 300 open-webui litellm
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - open-webui
+  #     - litellm
+
+networks:
+  default:
+    name: open-webui-network
+    driver: bridge

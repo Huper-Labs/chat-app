@@ -2,6 +2,9 @@
 
 # Create volume directories
 mkdir -p volumes/{postgres,redis,open-webui}
+mkdir -p volumes/cache/embedding/models
+mkdir -p volumes/cache/whisper/models
+mkdir -p config/open-webui
 
 # Copy environment template
 if [ ! -f .env ]; then

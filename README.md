@@ -4,10 +4,19 @@ This repository contains a Docker Compose setup for running Open WebUI and LiteL
 
 ## Architecture
 
-- **Open WebUI**: Web interface for interacting with various AI models
-- **LiteLLM**: Proxy server for unified access to multiple LLM providers
-- **PostgreSQL**: Database for storing application data
-- **Redis**: Cache layer for LiteLLM
+- **Open WebUI**: Full-featured web interface for interacting with various AI models
+  - RAG (Retrieval Augmented Generation) support with embeddings
+  - Web search integration
+  - Image generation capabilities
+  - Code execution with Pyodide
+  - Speech-to-text with Whisper
+  - Auto-tagging and autocomplete
+- **LiteLLM**: Unified proxy for multiple LLM providers
+  - Supports OpenAI, Anthropic, Google, Cohere, Mistral, Groq, and more
+  - Load balancing and failover
+  - Usage tracking and rate limiting
+- **PostgreSQL**: Database for application data and vector storage
+- **Redis**: Cache layer and websocket support for scalability
 
 ## Prerequisites
 
@@ -97,6 +106,23 @@ docker-compose up -d
 ./scripts/backup.sh
 ```
 
+## Key Features
+
+### Enabled by Default
+- User registration and authentication
+- Message ratings and community sharing
+- Code execution with Pyodide
+- Auto-tagging and autocomplete generation
+- Evaluation arena models
+- Admin export and chat access
+
+### Available Features (Enable via .env)
+- **RAG/Web Search**: Enable `ENABLE_WEB_SEARCH` and configure search provider
+- **Image Generation**: Enable `ENABLE_IMAGE_GENERATION` and configure AUTOMATIC1111/ComfyUI
+- **GPU Support**: Uncomment GPU configuration in docker-compose.yml
+- **Multi-node Deployment**: Configure Redis URLs for websocket support
+- **OAuth/SSO**: Configure OAuth providers in .env
+
 ## Directory Structure
 
 ```
@@ -105,14 +131,18 @@ docker-compose up -d
 ├── .env                    # Environment variables (not in git)
 ├── config/                 # Service configurations
 │   ├── litellm/
-│   └── open-webui/
+│   │   └── config.yaml    # Model configurations
+│   └── open-webui/        # Custom UI configs
 ├── volumes/                # Persistent data (not in git)
-│   ├── postgres/
-│   ├── redis/
-│   └── open-webui/
+│   ├── postgres/          # Database files
+│   ├── redis/             # Cache data
+│   ├── open-webui/        # User data and chats
+│   └── cache/             # Model caches
+│       ├── embedding/     # Embedding models
+│       └── whisper/       # STT models
 └── scripts/                # Management scripts
-    ├── setup.sh
-    └── backup.sh
+    ├── setup.sh           # Initial setup
+    └── backup.sh          # Backup utility
 ```
 
 ## Security Notes

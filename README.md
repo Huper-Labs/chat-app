@@ -93,8 +93,13 @@ Edit `config/litellm/config.yaml` to add or modify available models. The default
 - Gemini 1.5 Family: `gemini-1.5-pro`, `gemini-1.5-flash`
 - Legacy: `gemini-pro`, `gemini-pro-vision`
 
+**xAI Models (Grok):**
+- Grok 4 Series (Latest): `grok-4`, `grok-4-latest`, `grok-4-0709`
+- Grok 3 Series: `grok-3`, `grok-3-mini`
+- Other Models: `grok-beta`, `grok-2-vision-latest`
+
 **Other Providers:**
-- Mistral, Cohere, Groq models
+- Mistral, Cohere, Groq, Perplexity models
 - And 10+ more providers
 
 ### Open WebUI Settings

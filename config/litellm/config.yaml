@@ -234,6 +234,36 @@ model_list:
       model: perplexity/sonar-medium-chat
       api_key: os.environ/PERPLEXITY_API_KEY
   
+  # xAI Models - Grok Series
+  - model_name: grok-4
+    litellm_params:
+      model: xai/grok-4
+      api_key: os.environ/XAI_API_KEY
+  - model_name: grok-4-latest
+    litellm_params:
+      model: xai/grok-4-latest
+      api_key: os.environ/XAI_API_KEY
+  - model_name: grok-4-0709
+    litellm_params:
+      model: xai/grok-4-0709
+      api_key: os.environ/XAI_API_KEY
+  - model_name: grok-3
+    litellm_params:
+      model: xai/grok-3
+      api_key: os.environ/XAI_API_KEY
+  - model_name: grok-3-mini
+    litellm_params:
+      model: xai/grok-3-mini-beta
+      api_key: os.environ/XAI_API_KEY
+  - model_name: grok-beta
+    litellm_params:
+      model: xai/grok-beta
+      api_key: os.environ/XAI_API_KEY
+  - model_name: grok-2-vision-latest
+    litellm_params:
+      model: xai/grok-2-vision-latest
+      api_key: os.environ/XAI_API_KEY
+  
   # AWS Bedrock Models (if AWS credentials are configured)
   - model_name: claude-3-sonnet-bedrock
     litellm_params:
@@ -325,17 +355,20 @@ router_settings:
   
   # Model fallbacks
   model_group_alias: {
-    "gemini-2.5-pro": ["gemini-2.5-pro", "gemini-2.0-pro-exp", "gemini-1.5-pro", "claude-opus-4", "gpt-4o"],
-    "gemini-2.5-flash": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "claude-3.5-sonnet", "gpt-4o"],
-    "gemini-2.5-flash-lite": ["gemini-2.5-flash-lite", "gemini-2.0-flash-lite", "gemini-1.5-flash", "claude-3.5-haiku", "gpt-4o-mini"],
-    "claude-opus-4": ["claude-opus-4", "claude-3.5-sonnet", "claude-3-opus", "gemini-2.5-pro", "gpt-4o"],
-    "claude-sonnet-4": ["claude-sonnet-4", "claude-3.5-sonnet", "gemini-2.5-flash", "gpt-4o", "claude-3-sonnet"],
-    "claude-3.5-sonnet": ["claude-3.5-sonnet", "claude-3-sonnet", "gpt-4o", "gemini-2.5-flash", "gemini-1.5-pro"],
-    "claude-3.5-haiku": ["claude-3.5-haiku", "claude-3-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite", "gemini-1.5-flash"],
-    "gpt-4o": ["gpt-4o", "gpt-4.1", "claude-sonnet-4", "claude-3.5-sonnet", "gemini-2.5-flash", "gemini-1.5-pro"],
-    "gpt-4o-mini": ["gpt-4o-mini", "gpt-4.1-mini", "claude-3.5-haiku", "claude-3-haiku", "gemini-2.5-flash-lite", "gemini-1.5-flash"],
-    "o3": ["o3", "o3-pro", "o1", "claude-opus-4", "gemini-2.5-pro", "gpt-4o"],
-    "o3-mini": ["o3-mini", "o1-mini", "gpt-4o-mini", "claude-3.5-haiku", "gemini-2.5-flash-lite"],
+    "grok-4": ["grok-4", "grok-4-latest", "grok-3", "claude-opus-4", "o3", "gpt-4o"],
+    "grok-3": ["grok-3", "grok-beta", "claude-3.5-sonnet", "gpt-4o", "gemini-2.5-flash"],
+    "grok-3-mini": ["grok-3-mini", "grok-beta", "claude-3.5-haiku", "gpt-4o-mini", "gemini-2.5-flash-lite"],
+    "gemini-2.5-pro": ["gemini-2.5-pro", "gemini-2.0-pro-exp", "gemini-1.5-pro", "claude-opus-4", "grok-4", "gpt-4o"],
+    "gemini-2.5-flash": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "claude-3.5-sonnet", "grok-3", "gpt-4o"],
+    "gemini-2.5-flash-lite": ["gemini-2.5-flash-lite", "gemini-2.0-flash-lite", "gemini-1.5-flash", "claude-3.5-haiku", "grok-3-mini", "gpt-4o-mini"],
+    "claude-opus-4": ["claude-opus-4", "claude-3.5-sonnet", "claude-3-opus", "grok-4", "gemini-2.5-pro", "gpt-4o"],
+    "claude-sonnet-4": ["claude-sonnet-4", "claude-3.5-sonnet", "grok-3", "gemini-2.5-flash", "gpt-4o", "claude-3-sonnet"],
+    "claude-3.5-sonnet": ["claude-3.5-sonnet", "claude-3-sonnet", "grok-3", "gpt-4o", "gemini-2.5-flash", "gemini-1.5-pro"],
+    "claude-3.5-haiku": ["claude-3.5-haiku", "claude-3-haiku", "grok-3-mini", "gpt-4o-mini", "gemini-2.5-flash-lite", "gemini-1.5-flash"],
+    "gpt-4o": ["gpt-4o", "gpt-4.1", "grok-4", "claude-sonnet-4", "claude-3.5-sonnet", "gemini-2.5-flash", "gemini-1.5-pro"],
+    "gpt-4o-mini": ["gpt-4o-mini", "gpt-4.1-mini", "grok-3-mini", "claude-3.5-haiku", "claude-3-haiku", "gemini-2.5-flash-lite", "gemini-1.5-flash"],
+    "o3": ["o3", "o3-pro", "o1", "grok-4", "claude-opus-4", "gemini-2.5-pro", "gpt-4o"],
+    "o3-mini": ["o3-mini", "o1-mini", "grok-3-mini", "gpt-4o-mini", "claude-3.5-haiku", "gemini-2.5-flash-lite"],
     "gpt-4": ["gpt-4", "gpt-4o", "claude-3-opus", "gemini-1.5-pro"],
     "gpt-3.5-turbo": ["gpt-3.5-turbo", "gpt-4o-mini", "claude-3-haiku", "gemini-1.5-flash"],
   }

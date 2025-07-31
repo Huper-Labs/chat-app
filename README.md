@@ -106,6 +106,38 @@ docker-compose up -d
 ./scripts/backup.sh
 ```
 
+## Setting Up User Tracking (LiteLLM + Open WebUI)
+
+Follow these steps to enable per-user usage tracking:
+
+1. **Access LiteLLM UI**: Navigate to http://localhost:4000
+   - Login with credentials from `.env` (UI_USERNAME/UI_PASSWORD)
+
+2. **Create Organization**: 
+   - Go to Settings → Teams & Organizations
+   - Create a new organization
+
+3. **Create Team**:
+   - Within the organization, create a team
+   - Teams group users with similar access permissions
+
+4. **Create Users**:
+   - Add users to teams
+   - Each user gets tracked individually
+
+5. **Generate Virtual API Keys**:
+   - For each user/team, generate a virtual API key
+   - Configure which models the key can access
+   - Set spending limits if needed
+
+6. **Configure Open WebUI**:
+   - Use the virtual API key when connecting Open WebUI to LiteLLM
+   - User information will be automatically forwarded via headers
+
+7. **View Usage**:
+   - Check usage per user in LiteLLM UI
+   - Export usage data as needed
+
 ## Key Features
 
 ### Enabled by Default
@@ -115,6 +147,7 @@ docker-compose up -d
 - Auto-tagging and autocomplete generation
 - Evaluation arena models
 - Admin export and chat access
+- Per-user usage tracking (via `ENABLE_FORWARD_USER_INFO_HEADERS`)
 
 ### Available Features (Enable via .env)
 - **RAG/Web Search**: Enable `ENABLE_WEB_SEARCH` and configure search provider
@@ -122,6 +155,16 @@ docker-compose up -d
 - **GPU Support**: Uncomment GPU configuration in docker-compose.yml
 - **Multi-node Deployment**: Configure Redis URLs for websocket support
 - **OAuth/SSO**: Configure OAuth providers in .env
+
+### LiteLLM + Open WebUI Integration Features
+Based on the [official tutorial](https://docs.litellm.ai/docs/tutorials/openweb_ui):
+- **Per-User Usage Tracking**: Track usage and costs per user ID
+- **Virtual API Keys**: Create user/team-specific API keys with model access controls
+- **Model Access Control**: Limit which models each user/team can access
+- **Thinking Content Rendering**: Support for `<think>` tags with merge_reasoning_content
+- **100+ LLM Support**: Access models from all major providers through LiteLLM proxy
+- **Usage Logging**: Log to external services like Langfuse, S3, GCS
+- **Model Fallbacks**: Automatic fallback to alternative models on failure
 
 ## Directory Structure
 
